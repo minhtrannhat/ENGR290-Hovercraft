@@ -124,7 +124,7 @@ const uint16_t Servo_angle[256] = {
 };
 
 // Change this number to the ID that was given to you.
-#define Team_NO 0xF1
+#define Team_NO 0x1B1
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //++++++++ Here is the placeholder for your control algorithm
@@ -186,8 +186,8 @@ void control_script() {
   // 2) The example is NOT practical - it is here just to show you how to
   // operate the controls.
   uint8_t dist_old = ADC_data.ADC3;
-  OCR0A = 127;      // hover, but not too high
-  OCR1B = D1B(127); // turning at lower speed speed
+  OCR0A = 256;      // hover, but not too high
+  OCR1B = D1B(256); // turning at lower speed speed
   uint8_t a = 0;
   OCR1A =
       Servo_angle[a]; // servo to one side - change it to more appropriate angle
