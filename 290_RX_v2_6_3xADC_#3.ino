@@ -124,7 +124,7 @@ const uint16_t Servo_angle[256] = {
 };
 
 // Change this number to the ID that was given to you.
-#define Team_NO 0xF1
+#define Team_NO 0x1B1
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //++++++++ Here is the placeholder for your control algorithm
@@ -150,17 +150,17 @@ void control_script() {
     }
   */
 
-  /*
+  
   // Go straight for 2s checking if the wall is at ~40cm range
     OCR1A=Servo_angle[127]; //servo at the middle
     OCR0A=255; //full lift
-    OCR1B=D1B(256); //full speed
-    for (uint8_t i=50; i>0; i--){
-      if (ADC_data.ADC3>DIST_TH) break;
-      DELAY_ms (40);
-    }
+    OCR1B=D1B(255); //full speed
+    // for (uint8_t i=50; i>0; i--){
+    //  if (ADC_data.ADC3>DIST_TH) break;
+    //   DELAY_ms (40);
+    // }
 
-  */
+
 
   /*
   To check digital IO pins:
@@ -180,14 +180,15 @@ void control_script() {
   and remove XOR in the ADR ISR.
   */
 
+  /*
   // Align perpendicular to the wall for 20s.
   // Note:
   // 1) The wall must be already in the range.
   // 2) The example is NOT practical - it is here just to show you how to
   // operate the controls.
   uint8_t dist_old = ADC_data.ADC3;
-  OCR0A = 127;      // hover, but not too high
-  OCR1B = D1B(127); // turning at lower speed speed
+  OCR0A = 256;      // hover, but not too high
+  OCR1B = D1B(256); // turning at lower speed speed
   uint8_t a = 0;
   OCR1A =
       Servo_angle[a]; // servo to one side - change it to more appropriate angle
@@ -203,8 +204,9 @@ void control_script() {
     dist_old = ADC_data.ADC3;
     DELAY_ms(40);
   }
+  */
 
-  flags.stop = 1; // this must be the very last command in your script. It will
+  //flags.stop = 1; // this must be the very last command in your script. It will
                   // ground the hovercraft.
   return;
 } // end of control_script()
@@ -459,15 +461,15 @@ int main(void) {
     WDTCSR|=(1<<WDCE) | (1<<WDE);
     WDTCSR =(1<<WDE) |(1<<WDP2)|(1<<WDP1); //1 sec delay for WDT
   */
-  flags.stop = 0;
+  //flags.stop = 0;
   flags.mode = 0;
   sei();
   char tmp_str[3];
   uint8_t *pData;
 
-  while (V_batt && !flags.stop) // main loop
+  while (V_batt) //&& !flags.stop) // main loop
   {
-    if (flags.mode)
+    //if (flags.mode)
       control_script();
 
 #ifdef ADC_DEBUG
